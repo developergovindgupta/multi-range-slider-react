@@ -5,7 +5,7 @@ function Desciption() {
 			<br />
 			<pre style={{ textAlign: 'left', display: 'inline-block', overflow: 'auto', margin: 'auto', border: 'solid 1px black', padding: '0px 30px' }}>{`
 import React, { useState } from 'react';
-import MultiRangeSlider from './components/MultiRangeSlider';
+import MultiRangeSlider from 'multi-range-slider-react';
 function App() {
 	const [minValue, set_minValue] = useState(25);
 	const [maxValue, set_maxValue] = useState(75);

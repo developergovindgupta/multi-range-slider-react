@@ -33,3 +33,38 @@ Example Code
 
 
 
+#### App.js
+
+	import React, { useState } from "react";
+	import MultiRangeSlider from "multi-range-slider-react";
+	function App() {
+	const [minValue, set_minValue] = useState(25);
+	const [maxValue, set_maxValue] = useState(75);
+	const min = 0;
+	const max = 100;
+	const step = 5;
+	const preventWheel = false;
+	const handleInput = (e) => {
+		set_minValue(e.minValue);
+		set_maxValue(e.maxValue);
+	};
+
+	return (
+		<div className="App">
+			<MultiRangeSlider
+				min={min}
+				max={max}
+				minValue={minValue}
+				maxValue={maxValue}
+				step={step}
+				preventWheel={preventWheel}
+				onInput={(e) => {
+					handleInput(e);
+				}}
+			/>
+		</div>
+		);
+	}
+
+	export default App;
+

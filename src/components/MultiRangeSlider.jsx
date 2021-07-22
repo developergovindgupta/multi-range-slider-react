@@ -28,7 +28,7 @@ const MultiRangeSlider = (props) => {
 	let startX = null;
 	let barValue = 0;
 	let bar = null;
-	let onBarLeftClick = (e) => {
+	const onBarLeftClick = (e) => {
 		let _minValue = minValue - step;
 		if (_minValue < min) {
 			_minValue = min;
@@ -38,7 +38,7 @@ const MultiRangeSlider = (props) => {
 		set_barMin(_barMin);
 		triggerInput(_minValue, maxValue);
 	};
-	let onInputMinChange = (e) => {
+	const onInputMinChange = (e) => {
 		let _minValue = parseFloat(e.target.value);
 		if (_minValue > maxValue - step) {
 			_minValue = maxValue - step;
@@ -48,7 +48,7 @@ const MultiRangeSlider = (props) => {
 		set_barMin(_barMin);
 		triggerInput(_minValue, maxValue);
 	};
-	let onLeftThumbMousedown = (e) => {
+	const onLeftThumbMousedown = (e) => {
 		startX = e.clientX;
 		if (e.type === 'touchstart') {
 			if (e.touches.length === 1) {
@@ -67,7 +67,7 @@ const MultiRangeSlider = (props) => {
 		document.addEventListener('touchend', onLeftThumbMouseup);
 		bar.classList.add('active');
 	};
-	let onLeftThumbMousemove = (e) => {
+	const onLeftThumbMousemove = (e) => {
 		let clientX = e.clientX;
 		if (e.type === 'touchmove') {
 			clientX = e.touches[0].clientX;
@@ -89,14 +89,14 @@ const MultiRangeSlider = (props) => {
 		set_barMin(_barMin);
 		triggerInput(val, maxValue);
 	};
-	let onLeftThumbMouseup = (e) => {
+	const onLeftThumbMouseup = (e) => {
 		document.removeEventListener('mousemove', onLeftThumbMousemove);
 		document.removeEventListener('mouseup', onLeftThumbMouseup);
 		document.removeEventListener('touchmove', onLeftThumbMousemove);
 		document.removeEventListener('touchend', onLeftThumbMouseup);
 		bar.classList.remove('active');
 	};
-	let onInnerBarLeftClick = (e) => {
+	const onInnerBarLeftClick = (e) => {
 		let _minValue = minValue + step;
 		if (_minValue > maxValue - step) {
 			_minValue = maxValue - step;
@@ -106,7 +106,7 @@ const MultiRangeSlider = (props) => {
 		set_barMin(_barMin);
 		triggerInput(_minValue, maxValue);
 	};
-	let onInnerBarRightClick = (e) => {
+	const onInnerBarRightClick = (e) => {
 		let _maxValue = maxValue - step;
 		if (_maxValue < minValue + step) {
 			_maxValue = minValue + step;
@@ -116,7 +116,7 @@ const MultiRangeSlider = (props) => {
 		set_barMax(_barMax);
 		triggerInput(minValue, _maxValue);
 	};
-	let onInputMaxChange = (e) => {
+	const onInputMaxChange = (e) => {
 		let _maxValue = parseFloat(e.target.value);
 		if (_maxValue < minValue + step) {
 			_maxValue = minValue + step;
@@ -126,7 +126,7 @@ const MultiRangeSlider = (props) => {
 		set_barMax(_barMax);
 		triggerInput(minValue, _maxValue);
 	};
-	let onRightThumbMousedown = (e) => {
+	const onRightThumbMousedown = (e) => {
 		startX = e.clientX;
 		if (e.type === 'touchstart') {
 			if (e.touches.length === 1) {
@@ -145,7 +145,7 @@ const MultiRangeSlider = (props) => {
 		document.addEventListener('touchend', onRightThumbMouseup);
 		bar.classList.add('active');
 	};
-	let onRightThumbMousemove = (e) => {
+	const onRightThumbMousemove = (e) => {
 		let clientX = e.clientX;
 		if (e.type === 'touchmove') {
 			clientX = e.touches[0].clientX;
@@ -167,14 +167,14 @@ const MultiRangeSlider = (props) => {
 		set_barMax(_barMax);
 		triggerInput(minValue, val);
 	};
-	let onRightThumbMouseup = (e) => {
+	const onRightThumbMouseup = (e) => {
 		document.removeEventListener('mousemove', onRightThumbMousemove);
 		document.removeEventListener('mouseup', onRightThumbMouseup);
 		document.removeEventListener('touchmove', onRightThumbMousemove);
 		document.removeEventListener('touchend', onRightThumbMouseup);
 		bar.classList.remove('active');
 	};
-	let onBarRightClick = (e) => {
+	const onBarRightClick = (e) => {
 		let _maxValue = maxValue + step;
 		if (_maxValue > max) {
 			_maxValue = max;
@@ -184,7 +184,7 @@ const MultiRangeSlider = (props) => {
 		set_barMax(_barMax);
 		triggerInput(minValue, _maxValue);
 	};
-	let onMouseWheel = (e) => {
+	const onMouseWheel = (e) => {
 		if (preventWheel === true) {
 			return;
 		}
@@ -255,35 +255,33 @@ const MultiRangeSlider = (props) => {
 	}, [FirstTimeUseEffect, preventWheel, ID]);
 
 	return (
-		<>
-			<div id={ID} className={baseClassName} onWheel={onMouseWheel}>
-				<div className='bar'>
-					<div className='bar-left' style={{ width: barMin + '%' }} onClick={onBarLeftClick}></div>
-					<input className='input-type-range input-type-range-min' type='range' min={min} max={max} step={step} value={minValue} onInput={onInputMinChange} />
-					<div className='thumb thumb-left' onMouseDown={onLeftThumbMousedown} onTouchStart={onLeftThumbMousedown}>
-						<div className='min-value'>{minValue}</div>
-					</div>
-					<div className='bar-inner'>
-						<div className='bar-inner-left' onClick={onInnerBarLeftClick}></div>
-						<div className='bar-inner-right' onClick={onInnerBarRightClick}></div>
-					</div>
-					<input className='input-type-range input-type-range-max' type='range' min={min} max={max} step={step} value={maxValue} onInput={onInputMaxChange} />
-					<div className='thumb thumb-right' onMouseDown={onRightThumbMousedown} onTouchStart={onRightThumbMousedown}>
-						<div className='max-value'>{maxValue}</div>
-					</div>
-					<div className='bar-right' style={{ width: barMax + '%' }} onClick={onBarRightClick}></div>
+		<div id={ID} className={baseClassName} onWheel={onMouseWheel}>
+			<div className='bar'>
+				<div className='bar-left' style={{ width: barMin + '%' }} onClick={onBarLeftClick}></div>
+				<input className='input-type-range input-type-range-min' type='range' min={min} max={max} step={step} value={minValue} onInput={onInputMinChange} />
+				<div className='thumb thumb-left' onMouseDown={onLeftThumbMousedown} onTouchStart={onLeftThumbMousedown}>
+					<div className='min-value'>{minValue}</div>
 				</div>
-				<div className='ruler'>
-					{[...Array(stepCount)].map((e, i) => (
-						<div key={i} className='ruler-rule'></div>
-					))}
+				<div className='bar-inner'>
+					<div className='bar-inner-left' onClick={onInnerBarLeftClick}></div>
+					<div className='bar-inner-right' onClick={onInnerBarRightClick}></div>
 				</div>
-				<div className='label'>
-					<div className='label-min'>{min}</div>
-					<div className='label-max'>{max}</div>
+				<input className='input-type-range input-type-range-max' type='range' min={min} max={max} step={step} value={maxValue} onInput={onInputMaxChange} />
+				<div className='thumb thumb-right' onMouseDown={onRightThumbMousedown} onTouchStart={onRightThumbMousedown}>
+					<div className='max-value'>{maxValue}</div>
 				</div>
+				<div className='bar-right' style={{ width: barMax + '%' }} onClick={onBarRightClick}></div>
 			</div>
-		</>
+			<div className='ruler'>
+				{[...Array(stepCount)].map((e, i) => (
+					<div key={i} className='ruler-rule'></div>
+				))}
+			</div>
+			<div className='label'>
+				<div className='label-min'>{min}</div>
+				<div className='label-max'>{max}</div>
+			</div>
+		</div>
 	);
 };
 
