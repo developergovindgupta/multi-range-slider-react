@@ -2,12 +2,14 @@ import logo from './logo.svg';
 import './App.css';
 import React, { useState } from 'react';
 import MultiRangeSlider from './components/MultiRangeSlider';
+import Description from './Description';
 function App() {
 	const [minValue, set_minValue] = useState(25);
 	const [maxValue, set_maxValue] = useState(75);
 	const min = 0;
 	const max = 100;
 	const step = 5;
+	const preventWheel = false;
 
 	const handleInput = (e) => {
 		set_minValue(e.minValue);
@@ -29,6 +31,7 @@ function App() {
 					minValue={minValue}
 					maxValue={maxValue}
 					step={step}
+					preventWheel={preventWheel}
 					onInput={(e) => {
 						handleInput(e);
 					}}
@@ -39,7 +42,14 @@ function App() {
 				<div className='divOutput'>
 					minValue={minValue} <br /> maxValue={maxValue}
 				</div>
+				<br />
+				<br />
+				<br />
 			</div>
+			<Description />
+			<br />
+			<br />
+			<br />
 		</div>
 	);
 }

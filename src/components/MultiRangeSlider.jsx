@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './MultiRangeSlider.css';
 
 const MultiRangeSlider = (props) => {
@@ -7,10 +7,22 @@ const MultiRangeSlider = (props) => {
 	const max = props.max || 100;
 	const step = props.step || 5;
 	const stepCount = (max - min) / step;
+	const preventWheel = props.preventWheel || false;
 	const [minValue, set_minValue] = useState(props.minValue || 25);
 	const [maxValue, set_maxValue] = useState(props.maxValue || 75);
 	const [barMin, set_barMin] = useState(((minValue - min) / (max - min)) * 100);
 	const [barMax, set_barMax] = useState(((max - maxValue) / (max - min)) * 100);
+	const [FirstTimeUseEffect, setFirstTimeUseEffect] = useState(true);
+	const getRandomID = (len) => {
+		const chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+		len = len || 10;
+		let randomID = '_';
+		for (let i = 0; i < len; i++) {
+			randomID += chars[Math.floor(Math.random() * chars.length)];
+		}
+		return randomID;
+	};
+	const ID = 'MultiRangeSlider' + getRandomID(15);
 
 	let barBox = null;
 	let startX = null;
@@ -24,6 +36,7 @@ const MultiRangeSlider = (props) => {
 		set_minValue(_minValue);
 		let _barMin = ((_minValue - min) / (max - min)) * 100;
 		set_barMin(_barMin);
+		triggerInput(_minValue, maxValue);
 	};
 	let onInputMinChange = (e) => {
 		let _minValue = parseFloat(e.target.value);
@@ -33,6 +46,7 @@ const MultiRangeSlider = (props) => {
 		set_minValue(_minValue);
 		let _barMin = ((_minValue - min) / (max - min)) * 100;
 		set_barMin(_barMin);
+		triggerInput(_minValue, maxValue);
 	};
 	let onLeftThumbMousedown = (e) => {
 		startX = e.clientX;
@@ -90,6 +104,7 @@ const MultiRangeSlider = (props) => {
 		set_minValue(_minValue);
 		let _barMin = ((_minValue - min) / (max - min)) * 100;
 		set_barMin(_barMin);
+		triggerInput(_minValue, maxValue);
 	};
 	let onInnerBarRightClick = (e) => {
 		let _maxValue = maxValue - step;
@@ -99,6 +114,7 @@ const MultiRangeSlider = (props) => {
 		set_maxValue(_maxValue);
 		let _barMax = ((max - _maxValue) / (max - min)) * 100;
 		set_barMax(_barMax);
+		triggerInput(minValue, _maxValue);
 	};
 	let onInputMaxChange = (e) => {
 		let _maxValue = parseFloat(e.target.value);
@@ -108,6 +124,7 @@ const MultiRangeSlider = (props) => {
 		set_maxValue(_maxValue);
 		let _barMax = ((max - _maxValue) / (max - min)) * 100;
 		set_barMax(_barMax);
+		triggerInput(minValue, _maxValue);
 	};
 	let onRightThumbMousedown = (e) => {
 		startX = e.clientX;
@@ -165,6 +182,58 @@ const MultiRangeSlider = (props) => {
 		set_maxValue(_maxValue);
 		let _barMax = ((max - _maxValue) / (max - min)) * 100;
 		set_barMax(_barMax);
+		triggerInput(minValue, _maxValue);
+	};
+	let onMouseWheel = (e) => {
+		if (preventWheel === true) {
+			return;
+		}
+
+		if (!e.shiftKey && !e.ctrlKey) {
+			return;
+		}
+
+		let val = (max - min) / 100;
+		if (val > 1) {
+			val = 1;
+		}
+		if (e.deltaY < 0) {
+			val = -val;
+		}
+
+		let _minValue = minValue;
+		let _maxValue = maxValue;
+		if (e.shiftKey && e.ctrlKey) {
+			if (_minValue + val >= min && _maxValue + val <= max) {
+				_minValue = _minValue + val;
+				_maxValue = _maxValue + val;
+			}
+		} else if (e.ctrlKey) {
+			val = _maxValue + val;
+			if (val < _minValue + step) {
+				val = _minValue + step;
+			} else if (val > max) {
+				val = max;
+			}
+			_maxValue = val;
+		} else if (e.shiftKey) {
+			val = _minValue + val;
+			if (val < min) {
+				val = min;
+			} else if (val > _maxValue - step) {
+				val = _maxValue - step;
+			}
+			_minValue = val;
+		}
+
+		set_maxValue(_maxValue);
+
+		set_minValue(_minValue);
+		let _barMin = ((_minValue - min) / (max - min)) * 100;
+		set_barMin(_barMin);
+		let _barMax = ((max - _maxValue) / (max - min)) * 100;
+		set_barMax(_barMax);
+		triggerInput(_minValue, _maxValue);
 	};
 
 	const triggerInput = (minValue, maxValue) => {
@@ -172,10 +241,22 @@ const MultiRangeSlider = (props) => {
 		props.onInput && props.onInput(retObj);
 		props.onChange && props.onChange(retObj);
 	};
+	useEffect(() => {
+		FirstTimeUseEffect &&
+			(() => {
+				document.querySelector('#' + ID).addEventListener('wheel', (e) => {
+					if (preventWheel === true || (!e.shiftKey && !e.ctrlKey)) {
+						return;
+					}
+					e.preventDefault();
+				});
+				setFirstTimeUseEffect(false);
+			})();
+	}, [FirstTimeUseEffect, preventWheel, ID]);
 
 	return (
 		<>
-			<div className={baseClassName}>
+			<div id={ID} className={baseClassName} onWheel={onMouseWheel}>
 				<div className='bar'>
 					<div className='bar-left' style={{ width: barMin + '%' }} onClick={onBarLeftClick}></div>
 					<input className='input-type-range input-type-range-min' type='range' min={min} max={max} step={step} value={minValue} onInput={onInputMinChange} />
