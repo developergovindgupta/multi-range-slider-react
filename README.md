@@ -3,6 +3,14 @@
 a react component that can easy to use and interact with parent component with props and events.
 
 
+------------
+
+![](./MultiRangeSlider.png)
+
+
+
+------------
+
 
 # No Dependency only single component file and css file 
 
