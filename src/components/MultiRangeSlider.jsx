@@ -7,7 +7,7 @@ const MultiRangeSlider = (props) => {
 	const max = parseFloat(props.max || 100);
 	const step = parseFloat(props.step || 5);
 	const stepCount = (max - min) / step;
-	const preventWheel = props.preventWheel || false;
+	const preventWheel = props.preventWheel === 'true' || props.preventWheel === true || false;
 	const [minValue, set_minValue] = useState(parseFloat(props.minValue || 25));
 	const [maxValue, set_maxValue] = useState(parseFloat(props.maxValue || 75));
 	const [barMin, set_barMin] = useState(((minValue - min) / (max - min)) * 100);
