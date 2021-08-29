@@ -27,6 +27,8 @@ function App() {
 			minValue={minValue}
 			maxValue={maxValue}
 			step={step}
+			ruler={true}
+			label={true}
 			preventWheel={preventWheel}
 			onInput={(e) => {
 				handleInput(e);

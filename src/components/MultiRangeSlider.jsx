@@ -7,6 +7,12 @@ const MultiRangeSlider = (props) => {
 	const max = parseFloat(props.max || 100);
 	const step = parseFloat(props.step || 5);
 	const stepCount = (max - min) / step;
+	let ruler = props.ruler ?? true;
+	let label = props.label ?? true;
+
+	ruler = ruler === 'false' || !ruler ? false : true;
+	label = label === 'false' || !label ? false : true;
+
 	const preventWheel = props.preventWheel === 'true' || props.preventWheel === true || false;
 	const [minValue, set_minValue] = useState(parseFloat(props.minValue || 25));
 	const [maxValue, set_maxValue] = useState(parseFloat(props.maxValue || 75));
@@ -272,15 +278,19 @@ const MultiRangeSlider = (props) => {
 				</div>
 				<div className='bar-right' style={{ width: barMax + '%' }} onClick={onBarRightClick}></div>
 			</div>
-			<div className='ruler'>
-				{[...Array(stepCount)].map((e, i) => (
-					<div key={i} className='ruler-rule'></div>
-				))}
-			</div>
-			<div className='label'>
-				<div className='label-min'>{min}</div>
-				<div className='label-max'>{max}</div>
-			</div>
+			{ruler && (
+				<div className='ruler'>
+					{[...Array(stepCount)].map((e, i) => (
+						<div key={i} className='ruler-rule'></div>
+					))}
+				</div>
+			)}
+			{label && (
+				<div className='label'>
+					<div className='label-min'>{min}</div>
+					<div className='label-max'>{max}</div>
+				</div>
+			)}
 		</div>
 	);
 };
