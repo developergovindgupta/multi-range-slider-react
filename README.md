@@ -50,10 +50,6 @@ Example Code
 	function App() {
 	const [minValue, set_minValue] = useState(25);
 	const [maxValue, set_maxValue] = useState(75);
-	const min = 0;
-	const max = 100;
-	const step = 5;
-	const preventWheel = false;
 	const handleInput = (e) => {
 		set_minValue(e.minValue);
 		set_maxValue(e.maxValue);
@@ -62,12 +58,14 @@ Example Code
 	return (
 		<div className="App">
 			<MultiRangeSlider
-				min={min}
-				max={max}
+				min={0}
+				max={100}
+				step={5}
+				ruler={true}
+				label={true}
+				preventWheel={false}
 				minValue={minValue}
 				maxValue={maxValue}
-				step={step}
-				preventWheel={preventWheel}
 				onInput={(e) => {
 					handleInput(e);
 				}}

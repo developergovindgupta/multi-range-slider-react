@@ -6,11 +6,6 @@ import Description from './Description';
 function App() {
 	const [minValue, set_minValue] = useState(25);
 	const [maxValue, set_maxValue] = useState(75);
-	const min = 0;
-	const max = 100;
-	const step = 5;
-	const preventWheel = false;
-
 	const handleInput = (e) => {
 		set_minValue(e.minValue);
 		set_maxValue(e.maxValue);
@@ -26,14 +21,14 @@ function App() {
 			</div>
 			<div className='multi-range-slider-container'>
 				<MultiRangeSlider
-					min={min}
-					max={max}
-					minValue={minValue}
-					maxValue={maxValue}
-					step={step}
-					preventWheel={preventWheel}
+					min={0}
+					max={100}
+					step={5}
 					ruler={true}
 					label={true}
+					preventWheel={false}
+					minValue={minValue}
+					maxValue={maxValue}
 					onInput={(e) => {
 						handleInput(e);
 					}}
