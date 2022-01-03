@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './MultiRangeSlider.css';
+import './MultiRangeSliderBlack.css';
 
 const MultiRangeSlider = (props) => {
 	let baseClassName = props.baseClassName || 'multi-range-slider';

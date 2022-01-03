@@ -30,6 +30,7 @@ Following is the list of props that control the component
 | preventWheel  | Boolean  | false | true then it not accept mouse wheel to change its value. false then (shift + wheel) change minValue (ctrl+wheel) change maxValue, (ctrl+shift+wheel) change both values |
 |ruler|Boolean|true|is ruler visible or not|
 |label|Boolean|true|is label visible or not|
+|baseClassName|String|multi-range-slider|Change CSS style of your own|
 
 ## How to Install
 copy following code and run on CLI
@@ -76,3 +77,24 @@ Example Code
 
 	export default App;
 
+
+<br/><br/><br/><br/><br/>
+
+
+# View Demo
+
+## [Click here to view DEMO](https://tsi0x.csb.app/)
+## [Click here to view DEMO + Example Code](https://codesandbox.io/s/multi-range-slider-react-demo-tsi0x)
+
+<br/><br/><br/><br/><br/>
+
+
+# License 
+## (Free to use)
+
+<br/><br/><br/><br/><br/>
+
+
+# Author
+## Govind Prasad Gupta
+### developergovindgupta

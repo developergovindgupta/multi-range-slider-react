@@ -21,6 +21,7 @@ function App() {
 			</div>
 			<div className='multi-range-slider-container'>
 				<MultiRangeSlider
+					// baseClassName='multi-range-slider-black'
 					min={0}
 					max={100}
 					step={5}
