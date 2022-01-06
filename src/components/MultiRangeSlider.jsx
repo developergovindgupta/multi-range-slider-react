@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './MultiRangeSlider.css';
 import './MultiRangeSliderBlack.css';
 
-const MultiRangeSlider = (props) => {
+const MultiRangeSlider = React.forwardRef((props, ref) => {
 	let baseClassName = props.baseClassName || 'multi-range-slider';
 	const min = parseFloat(props.min || 0);
 	const max = parseFloat(props.max || 100);
 	const step = parseFloat(props.step || 5);
 	const stepCount = (max - min) / step;
-	let ruler = props.ruler ?? true;
-	let label = props.label ?? true;
+	let ruler = props.ruler === undefined || props.ruler === null ? true : props.ruler;
+	let label = props.label === undefined || props.label === null ? true : props.label;
 
 	ruler = ruler === 'false' || !ruler ? false : true;
 	label = label === 'false' || !label ? false : true;
@@ -19,17 +19,8 @@ const MultiRangeSlider = (props) => {
 	const [maxValue, set_maxValue] = useState(parseFloat(props.maxValue || 75));
 	const [barMin, set_barMin] = useState(((minValue - min) / (max - min)) * 100);
 	const [barMax, set_barMax] = useState(((max - maxValue) / (max - min)) * 100);
-	const [FirstTimeUseEffect, setFirstTimeUseEffect] = useState(true);
-	const getRandomID = (len) => {
-		const chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-		len = len || 10;
-		let randomID = '_';
-		for (let i = 0; i < len; i++) {
-			randomID += chars[Math.floor(Math.random() * chars.length)];
-		}
-		return randomID;
-	};
-	const ID = 'MultiRangeSlider' + getRandomID(15);
+
+	let refThis = useRef();
 
 	let barBox = null;
 	let startX = null;
@@ -249,21 +240,24 @@ const MultiRangeSlider = (props) => {
 		props.onChange && props.onChange(retObj);
 	};
 	useEffect(() => {
-		FirstTimeUseEffect &&
-			(() => {
-				document.querySelector('#' + ID).addEventListener('wheel', (e) => {
-					if (preventWheel === true || (!e.shiftKey && !e.ctrlKey)) {
-						return;
-					}
-					e.preventDefault();
-				});
-				setFirstTimeUseEffect(false);
-			})();
-	}, [FirstTimeUseEffect, preventWheel, ID]);
+		refThis.current.parentNode.addEventListener('wheel', (e) => {
+			if (preventWheel === true || (!e.shiftKey && !e.ctrlKey)) {
+				return;
+			}
+			e.preventDefault();
+		});
+	}, [preventWheel]);
+
+	useEffect(() => {
+		set_minValue(parseFloat(props.minValue));
+		set_barMin(((minValue - min) / (max - min)) * 100);
+		set_maxValue(parseFloat(props.maxValue));
+		set_barMax(((max - maxValue) / (max - min)) * 100);
+	}, [props.minValue, props.maxValue, minValue, min, maxValue, max]);
 
 	return (
-		<div id={ID} className={baseClassName} onWheel={onMouseWheel}>
-			<div className='bar'>
+		<div className={baseClassName} onWheel={onMouseWheel} ref={ref}>
+			<div className='bar' ref={refThis}>
 				<div className='bar-left' style={{ width: barMin + '%' }} onClick={onBarLeftClick}></div>
 				<input className='input-type-range input-type-range-min' type='range' min={min} max={max} step={step} value={minValue} onInput={onInputMinChange} />
 				<div className='thumb thumb-left' onMouseDown={onLeftThumbMousedown} onTouchStart={onLeftThumbMousedown}>
@@ -294,6 +288,6 @@ const MultiRangeSlider = (props) => {
 			)}
 		</div>
 	);
-};
+});
 
 export default MultiRangeSlider;

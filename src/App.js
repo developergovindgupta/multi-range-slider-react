@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import MultiRangeSlider from './components/MultiRangeSlider';
 import Description from './Description';
 function App() {
@@ -10,7 +10,10 @@ function App() {
 		set_minValue(e.minValue);
 		set_maxValue(e.maxValue);
 	};
-
+	const ref = useRef();
+	useEffect(() => {
+		// console.log('ref:', ref);
+	});
 	return (
 		<div className='App'>
 			<header className='App-header'>
@@ -21,6 +24,7 @@ function App() {
 			</div>
 			<div className='multi-range-slider-container'>
 				<MultiRangeSlider
+					ref={ref}
 					// baseClassName='multi-range-slider-black'
 					min={0}
 					max={100}
@@ -42,6 +46,20 @@ function App() {
 				</div>
 				<br />
 				<br />
+				<MultiRangeSlider
+					baseClassName='multi-range-slider-black'
+					min={0}
+					max={100}
+					step={5}
+					ruler={true}
+					label={true}
+					preventWheel={false}
+					minValue={minValue}
+					maxValue={maxValue}
+					onInput={(e) => {
+						handleInput(e);
+					}}
+				/>
 				<br />
 			</div>
 			<Description />
