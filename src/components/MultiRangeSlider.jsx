@@ -10,6 +10,10 @@ const MultiRangeSlider = React.forwardRef((props, ref) => {
 	const stepCount = (max - min) / step;
 	let ruler = props.ruler === undefined || props.ruler === null ? true : props.ruler;
 	let label = props.label === undefined || props.label === null ? true : props.label;
+	const minFormatter = props.minFormatter || ((e) => e);
+	const maxFormatter = props.maxFormatter || ((e) => e);
+	const minValueFormatter = props.minValueFormatter || ((e) => e);
+	const maxValueFormatter = props.maxValueFormatter || ((e) => e);
 
 	ruler = ruler === 'false' || !ruler ? false : true;
 	label = label === 'false' || !label ? false : true;
@@ -261,7 +265,7 @@ const MultiRangeSlider = React.forwardRef((props, ref) => {
 				<div className='bar-left' style={{ width: barMin + '%' }} onClick={onBarLeftClick}></div>
 				<input className='input-type-range input-type-range-min' type='range' min={min} max={max} step={step} value={minValue} onInput={onInputMinChange} />
 				<div className='thumb thumb-left' onMouseDown={onLeftThumbMousedown} onTouchStart={onLeftThumbMousedown}>
-					<div className='min-value'>{minValue}</div>
+					<div className='min-value'>{minValueFormatter(minValue)}</div>
 				</div>
 				<div className='bar-inner'>
 					<div className='bar-inner-left' onClick={onInnerBarLeftClick}></div>
@@ -269,7 +273,7 @@ const MultiRangeSlider = React.forwardRef((props, ref) => {
 				</div>
 				<input className='input-type-range input-type-range-max' type='range' min={min} max={max} step={step} value={maxValue} onInput={onInputMaxChange} />
 				<div className='thumb thumb-right' onMouseDown={onRightThumbMousedown} onTouchStart={onRightThumbMousedown}>
-					<div className='max-value'>{maxValue}</div>
+					<div className='max-value'>{maxValueFormatter(maxValue)}</div>
 				</div>
 				<div className='bar-right' style={{ width: barMax + '%' }} onClick={onBarRightClick}></div>
 			</div>
@@ -282,8 +286,8 @@ const MultiRangeSlider = React.forwardRef((props, ref) => {
 			)}
 			{label && (
 				<div className='label'>
-					<div className='label-min'>{min}</div>
-					<div className='label-max'>{max}</div>
+					<div className='label-min'>{minFormatter(min)}</div>
+					<div className='label-max'>{maxFormatter(max)}</div>
 				</div>
 			)}
 		</div>
