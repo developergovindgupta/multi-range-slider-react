@@ -27,13 +27,17 @@ function App() {
 					ref={ref}
 					// baseClassName='multi-range-slider-black'
 					min={0}
-					max={100}
+					max={200}
 					step={5}
 					ruler={true}
 					label={true}
 					preventWheel={false}
 					minValue={minValue}
 					maxValue={maxValue}
+					minFormatter={(e) => `${Math.floor(e / 60)}:${Math.round(e % 60).toString().padStart(2, '0')}`}
+					maxFormatter={(e) => `${Math.floor(e / 60)}:${Math.round(e % 60).toString().padStart(2, '0')}`}
+					minValueFormatter={(e) => `${Math.floor(e / 60)}:${Math.round(e % 60).toString().padStart(2, '0')}`}
+					maxValueFormatter={(e) => `${Math.floor(e / 60)}:${Math.round(e % 60).toString().padStart(2, '0')}`}
 					onInput={(e) => {
 						handleInput(e);
 					}}
@@ -49,7 +53,7 @@ function App() {
 				<MultiRangeSlider
 					baseClassName='multi-range-slider-black'
 					min={0}
-					max={100}
+					max={200}
 					step={5}
 					ruler={true}
 					label={true}

@@ -67,6 +67,18 @@ Example Code
 				preventWheel={false}
 				minValue={minValue}
 				maxValue={maxValue}
+				{/* optional */}
+				minFormatter={(e) => 
+				  `${Math.floor(e / 60)}:${Math.round(e % 60).toString().padStart(2, '0')}`}
+				{/* optional */}
+				maxFormatter={(e) =>
+				  `${Math.floor(e / 60)}:${Math.round(e % 60).toString().padStart(2, '0')}`}
+				{/* optional */}
+				minValueFormatter={(e) =>
+				  `${Math.floor(e / 60)}:${Math.round(e % 60).toString().padStart(2, '0')}`}
+				{/* optional */}
+				maxValueFormatter={(e) =>
+				  `${Math.floor(e / 60)}:${Math.round(e % 60).toString().padStart(2, '0')}`}
 				onInput={(e) => {
 					handleInput(e);
 				}}
@@ -76,6 +88,8 @@ Example Code
 	}
 
 	export default App;
+
+`minFormatter`, `maxFormatter`, `minValueFormatter` and `maxValueFormatter` are assumed to be functions, which return a string or JSX Element for display. Returning a JSX Element or long strings requires overwriting the CSS for a good look.
 
 
 <br/><br/><br/><br/><br/>
